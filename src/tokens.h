@@ -4,7 +4,8 @@
 typedef int token;
 
 enum {
-  UINT = 100,
+  UINT = 255,
+  BINARY_OP,
 };
 
 #endif /*__TOKENS_H__*/

@@ -8,7 +8,7 @@ token lookeahead;
  * Essas funcoes serao utilizadas para
  * reconhecer tokens.
  */
-token uint(void) {
+int uint(void) {
   char c = getc(stream);
   if (isdigit(c)) {
     while((c = getc(stream)) && isdigit(c)) {
@@ -25,9 +25,19 @@ void ignore_spaces() {
     ungetc(c, stream);
 }
 
-int get_next_token(void) {
+int binary_op(void) {
+  char c = getc(stream);
+  if (c == '+' || c == '-' || c == '*' || c == '/') {
+      return 1;
+  } 
+  ungetc(c, stream);
+  return 0;
+}
+
+token get_next_token(void) {
   ignore_spaces();
   if(uint()) return UINT;
+  if(binary_op()) return BINARY_OP;
   return 0;
 }
 
@@ -50,3 +60,4 @@ void init_lexer(FILE *input) {
   stream = input;
   lookeahead = get_next_token();
 }
+
