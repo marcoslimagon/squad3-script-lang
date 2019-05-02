@@ -4,6 +4,7 @@
 typedef int token;
 
 enum {
+  SPACES = 1,
   UINT = 100,
 };
 

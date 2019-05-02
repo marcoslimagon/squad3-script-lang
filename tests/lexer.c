@@ -22,6 +22,38 @@ START_TEST(test_not_recognized) {
 }
 END_TEST
 
+START_TEST(test_space_beginning) {
+  char input[] = "   1";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_int_eq(get_lookahead(), UINT);
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_space_between) {
+  char input[] = "   1   1";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_int_eq(get_lookahead(), UINT);
+  ck_assert_int_eq(get_lookahead(), UINT);
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_space_end) {
+  char input[] = "1    ";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_int_eq(get_lookahead(), UINT);
+  ck_assert_int_eq(get_lookahead(), 0);
+  fclose(buffer);
+}
+END_TEST
+
 Suite *lexer_suite(void)
 {
   Suite *suite;
@@ -29,10 +61,15 @@ Suite *lexer_suite(void)
 
   suite = suite_create("Lexer");
   tc_integers = tcase_create("Integer");
+  tc_spaces = tcase_create("Spaces");
 
   tcase_add_test(tc_integers, test_uint_consumer);
   tcase_add_test(tc_integers, test_not_recognized);
+  tcase_add_test(tc_spaces, test_space_beginning);
+  tcase_add_test(tc_spaces, test_space_between);
+  tcase_add_test(tc_spaces, test_space_end);
   suite_add_tcase(suite, tc_integers);
+  suite_add_tcase(suite, tc_spaces);
 
   return suite;
 }

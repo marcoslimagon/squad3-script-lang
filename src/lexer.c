@@ -8,6 +8,19 @@ token lookeahead;
  * Essas funcoes serao utilizadas para
  * reconhecer tokens.
  */
+token spaces(void) {
+  char c = getc(stream);
+
+  if(isspace(c)) {
+    while((c = getc(stream)) && isspace(c)) {
+    }
+    return 1;
+  }
+
+  ungetc(c, stream);
+  return 0;
+}
+
 token uint(void) {
   char c = getc(stream);
   if (isdigit(c)) {
@@ -20,7 +33,9 @@ token uint(void) {
 }
 
 int get_next_token(void) {
+  if(spaces()) return get_next_token();
   if(uint()) return UINT;
+
   return 0;
 }
 
