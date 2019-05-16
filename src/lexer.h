@@ -7,8 +7,7 @@
 #include <string.h>
 
 #include "tokens.h"
-
-#define LEXEME_MAX_SIZE 1024
+#include "consts.h"
 
 // Essa funcao inicializa o lexer
 void init_lexer(FILE *input);

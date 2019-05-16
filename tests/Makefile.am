@@ -5,12 +5,14 @@
 
 # Configuracao do binario de tests
 # Este binario ira agrupar todos os testes unitarios
-TESTS = lexer parser
-check_PROGRAMS = lexer parser
+TESTS = lexer parser tree
+check_PROGRAMS = lexer parser tree
 
 lexer_SOURCES = lexer.c
 
 parser_SOURCES = parser.c
+
+tree_SOURCES = tree.c
 
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 
@@ -29,3 +31,9 @@ parser_LDADD = ${PARSER_LIBS} \
 							 ../src/parser.o \
 							 -lcheck -lsubunit -lm -lrt -lpthread
 
+tree_CFLAGS = -I/usr/include \
+							 -I$(includedir)
+
+tree_LDADD = ${TREE_LIBS} \
+							../src/tree.o \
+							-lcheck -lsubunit -lm -lrt -lpthread
