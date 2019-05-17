@@ -9,8 +9,9 @@
 #include <stdlib.h>
 
 #include "lexer.h"
+#include "tree.h"
 
 typedef long long integer;
 
-integer expr();
-integer factor();
+integer expr(void);
+integer factor(void);

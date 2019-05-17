@@ -4,10 +4,11 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include "tokens.h"
 #include "consts.h"
+#include "tokens.h"
 
 // Essa funcao inicializa o lexer
 void init_lexer(FILE *input);

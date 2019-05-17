@@ -9,7 +9,7 @@ char lexeme[LEXEME_MAX_SIZE];
  * Essas funcoes serao utilizadas para
  * reconhecer tokens.
  */
-bool uint(void) {
+bool read_uint(void) {
   char c = getc(stream);
   int position = 0;
 
@@ -56,7 +56,7 @@ token is_valid_char(void) {
 
 token get_next_token(void) {
   ignore_spaces();
-  if (uint())
+  if (read_uint())
     return UINT;
   if (binary_op())
     return BINARY_OP;

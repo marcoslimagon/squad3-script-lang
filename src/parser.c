@@ -1,6 +1,6 @@
 #include "parser.h"
 
-integer expr() {
+integer expr(void) {
   integer expr_result = factor();
   while (get_lookahead() == BINARY_OP) {
     char lexeme[2];
@@ -26,7 +26,7 @@ integer expr() {
   return expr_result;
 }
 
-integer factor() {
+integer factor(void) {
   integer result = 0;
 
   if (get_lookahead() == START_PARENTHESES) {

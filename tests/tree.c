@@ -8,13 +8,15 @@ START_TEST(test_init_node) {
 END_TEST
 
 START_TEST(test_read_node) {
-  NODE node;
-  NODE father;
+  NODE father = {};
+  NODE left;
+  NODE right;
 
-  tree_add_left(father, &node);
+  tree_add(father, &left, NODE_LEFT);
+  tree_add(father, &right, NODE_RIGHT);
 
-
-  ck_assert_int_eq(father.left, &node);
+  ck_assert_ptr_eq(father.left, &left);
+  ck_assert_ptr_eq(father.right, &right);
 }
 END_TEST
 
@@ -27,8 +29,6 @@ Suite *tree_suite(void) {
   tcase_add_test(tc_tree, test_read_node);
 
   suite = suite_create("Tree");
-
-
 
   return suite;
 }
