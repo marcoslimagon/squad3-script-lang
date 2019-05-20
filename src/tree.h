@@ -21,6 +21,13 @@ enum {
 
 typedef int node_t;
 
+enum {
+  MINUS = 0,
+  PLUS,
+  MULT,
+  DIV 
+};
+
 typedef struct NODE {
   node_t nodetype;
   char value[LEXEME_MAX_SIZE];
@@ -33,5 +40,6 @@ void tree_node_free(NODE *node);
 void tree_add(NODE *node, NODE *son, side_t side);
 void print_tree(NODE *node, char *str);
 void tree_node_set_str(NODE *node, const char *str);
+NODE *tree_put_operation(NODE *root, const char *operation, const char *value);
 
 #endif

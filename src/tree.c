@@ -48,3 +48,15 @@ void print_tree(NODE *node, char *str) {
 void tree_node_set_str(NODE *node, const char *str) {
   strcpy(node->value, str);
 }
+
+NODE *tree_put_operation(NODE *root, const char *operation, const char *value) {
+  NODE *operation_node = tree_node_init(OPERATOR);
+  tree_node_set_str(operation_node, operation);
+
+  NODE *value_node = tree_node_init(INTEGER);
+  tree_node_set_str(value_node, value);
+
+  operation_node->left = root;
+  operation_node->right = value_node;
+  return operation_node;
+}
