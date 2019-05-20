@@ -69,6 +69,7 @@ src/Makefile
 tests/parser
 tests/lexer
 tests/tests
+tests/tree
 tests/Makefile
 *.log
 .deps

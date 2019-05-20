@@ -12,9 +12,9 @@ START_TEST(test_read_node) {
   NODE *left = NULL;
   NODE *right = NULL;
 
-  tree_node_init(father, OPERATOR);
-  tree_node_init(left, INTEGER);
-  tree_node_init(right, INTEGER);
+  father = tree_node_init(OPERATOR);
+  left = tree_node_init(INTEGER);
+  right = tree_node_init(INTEGER);
 
   tree_add(father, left, NODE_LEFT);
   tree_add(father, right, NODE_RIGHT);
@@ -28,6 +28,7 @@ END_TEST
 
 START_TEST(test_print_arithmetic_tree) {
   char result[1024];
+  strcpy(result, "\0");
 
   NODE *plus = NULL;
   NODE *multi = NULL;
@@ -35,12 +36,20 @@ START_TEST(test_print_arithmetic_tree) {
   NODE *n2 = NULL;
   NODE *n3 = NULL;
 
-  tree_node_init(plus, OPERATOR);
-  tree_node_init(multi, OPERATOR);
+  plus = tree_node_init(OPERATOR);
+  tree_node_set_str(plus, "+");
 
-  tree_node_init(n1, INTEGER);
-  tree_node_init(n2, INTEGER);
-  tree_node_init(n3, INTEGER);
+  multi = tree_node_init(OPERATOR);
+  tree_node_set_str(multi, "*");
+
+  n1 = tree_node_init(INTEGER);
+  tree_node_set_str(n1, "1");
+
+  n2 = tree_node_init(INTEGER);
+  tree_node_set_str(n2, "2");
+
+  n3 = tree_node_init(INTEGER);
+  tree_node_set_str(n3, "3");
 
   tree_add(plus, n1, NODE_LEFT);
   tree_add(plus, n2, NODE_RIGHT);
@@ -48,7 +57,7 @@ START_TEST(test_print_arithmetic_tree) {
   tree_add(multi, plus, NODE_LEFT);
   tree_add(multi, n3, NODE_RIGHT);
 
-  print_tree(plus, result);
+  print_tree(multi, result);
   ck_assert_str_eq("1 + 2 * 3", result);
 
   tree_node_free(plus);
@@ -66,7 +75,7 @@ Suite *tree_suite(void) {
 
   suite = suite_create("Tree");
 
-  // suite_add_tcase(suite, tc_tree);
+  suite_add_tcase(suite, tc_tree);
 
   return suite;
 }

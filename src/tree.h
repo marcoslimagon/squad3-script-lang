@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "consts.h"
 
@@ -27,9 +28,10 @@ typedef struct NODE {
   struct NODE *right;
 } NODE;
 
-void tree_node_init(NODE *node, node_t nodetype);
+NODE *tree_node_init(node_t nodetype);
 void tree_node_free(NODE *node);
 void tree_add(NODE *node, NODE *son, side_t side);
 void print_tree(NODE *node, char *str);
+void tree_node_set_str(NODE *node, const char *str);
 
 #endif
