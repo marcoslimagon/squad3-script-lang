@@ -68,7 +68,7 @@ START_TEST(test_print_arithmetic_tree_adjusted) {
   char result[1024];
   strcpy(result, "\0");
 
-  NODE* root = tree_node_init(INTEGER);
+  NODE *root = tree_node_init(INTEGER);
   tree_node_set_str(root, "1");
   root = tree_put_operation(root, "+", "2");
 
@@ -83,12 +83,45 @@ START_TEST(test_print_arithmetic_tree_adjusted_mult) {
   char result[1024];
   strcpy(result, "\0");
 
-  NODE* root = tree_node_init(INTEGER);
+  NODE *root = tree_node_init(INTEGER);
   tree_node_set_str(root, "1");
   root = tree_put_operation(root, "*", "2");
 
   print_tree(root, result);
-  ck_assert_str_eq("2 * 1", result);
+  ck_assert_str_eq("1 * 2", result);
+
+  tree_node_free(root);
+}
+END_TEST
+
+START_TEST(test_print_arithmetic_tree_correct_order) {
+  char result[1024];
+  strcpy(result, "\0");
+
+  NODE *root = tree_node_init(INTEGER);
+  tree_node_set_str(root, "1");
+  root = tree_put_operation(root, "+", "1");
+  root = tree_put_operation(root, "*", "2");
+
+  print_tree(root, result);
+  ck_assert_str_eq("1 * 2 + 1", result);
+
+  tree_node_free(root);
+}
+END_TEST
+
+START_TEST(test_print_arithmetic_tree_correct_order_2) {
+  char result[1024];
+  strcpy(result, "\0");
+
+  NODE *root = tree_node_init(INTEGER);
+  tree_node_set_str(root, "1");
+  root = tree_put_operation(root, "*", "2");
+  root = tree_put_operation(root, "+", "3");
+  root = tree_put_operation(root, "*", "4");
+
+  print_tree(root, result);
+  ck_assert_str_eq("2 * 1 + 4 * 3", result);
 
   tree_node_free(root);
 }
@@ -103,7 +136,10 @@ Suite *tree_suite(void) {
   tcase_add_test(tc_tree, test_read_node);
   tcase_add_test(tc_tree, test_print_arithmetic_tree);
   tcase_add_test(tc_tree, test_print_arithmetic_tree_adjusted);
-  // case_add_test(tc_tree, test_print_arithmetic_tree_adjusted_mult);
+  tcase_add_test(tc_tree, test_print_arithmetic_tree_adjusted_mult);
+  tcase_add_test(tc_tree, test_print_arithmetic_tree_correct_order);
+  // wip
+  // tcase_add_test(tc_tree, test_print_arithmetic_tree_correct_order_2);
 
   suite = suite_create("Tree");
 

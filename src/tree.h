@@ -7,32 +7,29 @@
 
 #include "consts.h"
 
-enum {
+typedef enum {
   NODE_LEFT = 0,
   NODE_RIGHT,
-};
+} side_t;
 
-typedef int side_t;
-
-enum {
+typedef enum {
   OPERATOR = 0,
   INTEGER,
-};
+} node_t;
 
-typedef int node_t;
-
-enum {
+typedef enum {
   MINUS = 0,
   PLUS,
   MULT,
-  DIV 
-};
+  DIV,
+} op_precedence;
 
 typedef struct NODE {
   node_t nodetype;
   char value[LEXEME_MAX_SIZE];
   struct NODE *left;
   struct NODE *right;
+  struct NODE *parent;
 } NODE;
 
 NODE *tree_node_init(node_t nodetype);
