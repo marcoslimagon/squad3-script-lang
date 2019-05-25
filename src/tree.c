@@ -47,6 +47,25 @@ void print_tree(NODE *node, char *str) {
   }
 }
 
+integer calculate_tree(NODE *node) {
+  integer left;
+  integer right;
+
+  if (node->left != NULL)
+    left = calculate_tree(node->left);
+  if (node->right != NULL)
+    right = calculate_tree(node->right);
+
+  if (node->nodetype == OPERATOR) {
+    if (!strcmp(node->value, "*"))
+      return left * right;
+    if (!strcmp(node->value, "+"))
+      return left + right;
+  }
+
+  return atoll(node->value);
+}
+
 void tree_node_set_str(NODE *node, const char *str) {
   strcpy(node->value, str);
 }

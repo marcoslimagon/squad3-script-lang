@@ -1,3 +1,6 @@
+#ifndef __PARSER_H__
+#define __PARSER_H__
+
 /** SQD3 EBNF
  *
  * expr -> ['-'] factor { binary_op factor }
@@ -9,9 +12,10 @@
 #include <stdlib.h>
 
 #include "lexer.h"
+#include "sqd3_types.h"
 #include "tree.h"
-
-typedef long long integer;
 
 integer expr(void);
 integer factor(void);
+
+#endif
