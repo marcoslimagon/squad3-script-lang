@@ -14,7 +14,8 @@ void init_vtable(void) {
   first_entry->varname[0] = '\0';
   first_entry->ref = NULL;
   first_entry->next = NULL;
-  first_entry->scope = SCOPE_LOCAL;
+  first_entry->previous = NULL;
+  first_entry->scope = NEW_CONTEXT;
 }
 
 void declare_local_variable(varname_t varname, SQD3_OBJECT *value) {
@@ -24,7 +25,18 @@ void declare_local_variable(varname_t varname, SQD3_OBJECT *value) {
   strncpy(entry->varname, varname, sizeof(varname_t));
   entry->ref = value;
   entry->next = NULL;
+  entry->previous = last_entry;
   entry->scope = SCOPE_LOCAL;
 
   last_entry->next = entry;
+}
+
+void dispose_local_variables() {
+  VTABLE_ENTRY *last_entry = get_last_entry(first_entry);
+
+  while (last_entry->scope == SCOPE_LOCAL) {
+    last_entry = last_entry->previous;
+    free(last_entry->next);
+    last_entry->next = NULL;
+  }
 }

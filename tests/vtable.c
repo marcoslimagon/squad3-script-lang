@@ -8,7 +8,7 @@ START_TEST(test_init_vtable) {
   ck_assert_str_eq("\0", first_entry->varname);
   ck_assert_ptr_eq(NULL, first_entry->ref);
   ck_assert_ptr_eq(NULL, first_entry->next);
-  ck_assert_int_eq(SCOPE_LOCAL, first_entry->scope);
+  ck_assert_int_eq(NEW_CONTEXT, first_entry->scope);
 }
 END_TEST
 
@@ -30,6 +30,21 @@ START_TEST(test_declare_local_variable) {
 }
 END_TEST
 
+START_TEST(test_dispose_local_variables) {
+  init_vtable();
+
+  SQD3_OBJECT *value = integer_from_long_long(100);
+  declare_local_variable("x", value);
+
+  dispose_local_variables();
+
+  ck_assert_int_eq(NEW_CONTEXT, first_entry->scope);
+  ck_assert_ptr_eq(NULL, first_entry->next);
+
+  free_object(value);
+}
+END_TEST
+
 Suite *vtable_suite(void) {
   Suite *suite;
   TCase *tc_vtable;
@@ -37,6 +52,7 @@ Suite *vtable_suite(void) {
   tc_vtable = tcase_create("init vtable");
   tcase_add_test(tc_vtable, test_init_vtable);
   tcase_add_test(tc_vtable, test_declare_local_variable);
+  tcase_add_test(tc_vtable, test_dispose_local_variables);
 
   suite = suite_create("V-Table");
 
