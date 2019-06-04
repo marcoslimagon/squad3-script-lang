@@ -6,9 +6,10 @@ ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 bin_PROGRAMS = sqd3
 
 sqd3_SOURCES = lexer.c \
-							 parser.c \
-							 sqd3_types.c \
-							 tree.c \
-							 main.c
+               parser.c \
+               sqd3_types.c \
+               tree.c \
+               vtable.c \
+               main.c
 
 

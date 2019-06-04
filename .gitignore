@@ -71,6 +71,7 @@ tests/lexer
 tests/tests
 tests/sqd3_types
 tests/tree
+tests/vtable
 tests/Makefile
 *.log
 .deps
