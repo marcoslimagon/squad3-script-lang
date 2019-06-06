@@ -5,7 +5,7 @@
  *
  * expr -> ['-'] factor { binary_op factor }
  * binary_op -> '+' | '-' | '*' | '/'
- * factor -> 'UINT' | '(' expr ')'
+ * factor -> 'UINT'  | '(' expr ')'
  *
  */
 
@@ -15,7 +15,7 @@
 #include "sqd3_types.h"
 #include "tree.h"
 
-integer expr(void);
-integer factor(void);
+SQD3_OBJECT *expr(void);
+SQD3_OBJECT *factor(void);
 
 #endif
