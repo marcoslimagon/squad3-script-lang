@@ -1,9 +1,6 @@
 #include "parser.h"
 
-/**
- * private functions
- */
-bool is_binary_op(token value) {
+*private functions * / bool is_binary_op(token value) {
   return (value == '+' || value == '-' || value == '*' || value == '/' ||
           value == '=');
 }
@@ -84,7 +81,6 @@ SQD3_OBJECT *factor(void) {
 
   if (get_lookahead() == UINT) {
     match(UINT);
-
     if (invert_factor) {
       return integer_from_long_long(atoll(lexeme) * -1);
     }

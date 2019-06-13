@@ -10,9 +10,9 @@
 
 typedef enum {
   T_INTEGER,
+  T_FLOAT,
   T_REF,
   T_STRING,
-  T_FLOAT,
 } object_t;
 
 typedef enum {
