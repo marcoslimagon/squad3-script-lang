@@ -91,6 +91,14 @@ SQD3_OBJECT *factor(void) {
     return integer_from_long_long(atoll(lexeme));
   }
 
+  if (get_lookahead() == FLOAT) {
+    match(FLOAT);
+    if (invert_factor) {
+      return float_from_double(atof(lexeme) * -1);
+    }
+    return float_from_double(atof(lexeme));
+  }
+
   match(ID);
   if (get_lookahead() == START_PARENTHESES) {
     init_context(lexeme);

@@ -58,6 +58,16 @@ SQD3_OBJECT *build_builtin_function_ref(varname_t varname, void *function_ptr) {
   ref_value->ptr = function_ptr;
 
   ref->value = (void *)ref_value;
+  return ref;
+}
+
+SQD3_OBJECT *float_from_float(float value) {
+  SQD3_OBJECT *ref = malloc(sizeof(SQD3_OBJECT));
+
+  ref->object_type = T_FLOAT;
+
+  ref->value = malloc(sizeof(float));
+  memcpy(ref->value, &value, sizeof(float));
 
   return ref;
 }

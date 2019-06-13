@@ -211,9 +211,7 @@ START_TEST(test_float_factor) {
   FILE *buffer = fmemopen(input, strlen(input), "r");
   init_lexer(buffer);
 
-  float floatFromObject  = read_float_from_object(factor());
-  printf("float: %f", floatFromObject);
-  ck_assert_double_eq(floatFromObject, 10.1);
+  ck_assert_double_eq(read_float_from_object(factor()), 2.2);
   fclose(buffer);
 }
 END_TEST
