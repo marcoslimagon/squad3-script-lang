@@ -105,6 +105,10 @@ void *read_function_from_object(SQD3_OBJECT *object) {
   return ((SQD3_OBJECT_REF_VALUE *)object->value)->ptr;
 }
 
+float read_float_from_object(SQD3_OBJECT *object) {
+  return *((float *)object->value);
+}
+
 SQD3_OBJECT *execute_operator_plus(SQD3_OBJECT *left, SQD3_OBJECT *right) {
   return integer_from_long_long(read_integer_from_object(NORMALIZE(left)) +
                                 read_integer_from_object(NORMALIZE(right)));

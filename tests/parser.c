@@ -202,7 +202,18 @@ START_TEST(test_assign_expression_result) {
   ck_assert_int_eq(read_integer_from_object(expr()), 110);
   VTABLE_ENTRY *entry = recover_variable("x");
   ck_assert_int_eq(read_integer_from_object(entry->ref), 110);
+  fclose(buffer);
+}
+END_TEST
 
+START_TEST(test_float_factor) {
+  char input[] = "2.2";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  float floatFromObject  = read_float_from_object(factor());
+  printf("float: %f", floatFromObject);
+  ck_assert_double_eq(floatFromObject, 10.1);
   fclose(buffer);
 }
 END_TEST
@@ -261,6 +272,7 @@ Suite *parser_suite(void) {
 
   tcase_add_test(tc_factor, test_factor_integer);
   tcase_add_test(tc_factor, test_factor_id);
+  tcase_add_test(tc_factor, test_float_factor);
 
   tcase_add_test(tc_expr, test_expr_only_factor);
   tcase_add_test(tc_expr, test_expr_sum);

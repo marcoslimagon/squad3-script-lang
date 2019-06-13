@@ -38,6 +38,7 @@ SQD3_OBJECT *build_builtin_function_ref(varname_t varname, void *function_ptr);
 void to_string(SQD3_OBJECT *value, char *destination);
 
 integer read_integer_from_object(SQD3_OBJECT *object);
+float read_float_from_object(SQD3_OBJECT *object);
 SQD3_OBJECT_REF_VALUE *read_ref_value_from_ref(SQD3_OBJECT *object);
 const char *read_string_from_object(SQD3_OBJECT *object);
 void *read_function_from_object(SQD3_OBJECT *object);
