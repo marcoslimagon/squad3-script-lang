@@ -37,7 +37,6 @@ token read_number(void) {
         read_digits();
 
         lexeme[position] = '\0';
-        ungetc(c, stream);
 
         return FLOAT;
       }

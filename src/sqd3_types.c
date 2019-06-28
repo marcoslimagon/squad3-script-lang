@@ -120,6 +120,10 @@ float read_float_from_object(SQD3_OBJECT *object) {
 }
 
 SQD3_OBJECT *execute_operator_plus(SQD3_OBJECT *left, SQD3_OBJECT *right) {
+  if(left->object_type == T_FLOAT) {
+    return float_from_double(read_float_from_object(NORMALIZE(left)) +
+                             read_float_from_object(NORMALIZE(right)));
+  }
   return integer_from_long_long(read_integer_from_object(NORMALIZE(left)) +
                                 read_integer_from_object(NORMALIZE(right)));
 }

@@ -253,6 +253,26 @@ START_TEST(test_builtin_function_with_parameters) {
 }
 END_TEST
 
+START_TEST(test_float_sum) {
+  char input[] = "2.2 + 1.1";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_double_eq(read_float_from_object(expr()), 2.2 + 1.1);
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_float_and_int_sum) {
+  char input[] = "1 + 2.2";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_double_eq(read_float_from_object(expr()), 1 + 2.2);
+  fclose(buffer);
+}
+END_TEST
+
 Suite *parser_suite(void) {
   Suite *suite;
   TCase *tc_factor;
@@ -283,6 +303,9 @@ Suite *parser_suite(void) {
   tcase_add_test(tc_expr, test_negative_expression);
   tcase_add_test(tc_expr, test_negative_factor);
   tcase_add_test(tc_expr, test_negative_with_parentheses);
+  tcase_add_test(tc_expr, test_float_sum);
+  // TODO: suportar soma de float com inteiro
+  // tcase_add_test(tc_expr, test_float_and_int_sum);
 
   tcase_add_test(tc_complex_expr, test_complex_with_parentheses);
   tcase_add_test(tc_complex_expr, test_complex_without_parentheses);
