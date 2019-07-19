@@ -18,22 +18,4 @@ RUN make install
 RUN mkdir /workdir
 WORKDIR /workdir
 
-COPY m4 /workdir/m4
-COPY src /workdir/src
-COPY tests /workdir/tests
-COPY AUTHORS /workdir/AUTHORS
-COPY ChangeLog /workdir/ChangeLog
-COPY configure.ac /workdir/configure.ac
-COPY COPYING /workdir/COPYING
-COPY INSTALL /workdir/INSTALL
-COPY LICENSE /workdir/LICENSE
-COPY Makefile.am /workdir/Makefile.am
-COPY NEWS /workdir/NEWS
-COPY README /workdir/README
-COPY README.md /workdir/README.md
-
-RUN autoreconf -vi
-RUN ./configure --prefix=/usr
-RUN make
-
-CMD ["make", "check"]
+ENTRYPOINT ./build/run.test.sh

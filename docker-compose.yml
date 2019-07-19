@@ -1,0 +1,6 @@
+version: "3"
+services:
+  sqd3-tests:
+    build: ./build
+    volumes: 
+      - ./:/workdir
