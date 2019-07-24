@@ -14,9 +14,7 @@ void read_line(FILE *buffer) {
     FILE *line_buffer = fmemopen(line, strlen(line), "r");
     init_lexer(line_buffer);
 
-    SQD3_OBJECT *result = expr();
-
-    printf("%lld \n", read_integer_from_object(result));
+    expr();
   }
 }
 
@@ -44,7 +42,7 @@ void repl() {
   }
 }
 
-int main(int argc, const char  **argv) {
+int main(int argc, const char **argv) {
 
   init_vtable();
 
