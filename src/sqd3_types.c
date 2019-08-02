@@ -91,6 +91,9 @@ void to_string(SQD3_OBJECT *value, char *destination) {
   if (value->object_type == T_INTEGER) {
     sprintf(destination, "%lld", read_integer_from_object(value));
   }
+  if (value->object_type == T_FLOAT) {
+    sprintf(destination, "%f", read_float_from_object(value));
+  }
   if (value->object_type == T_REF) {
     SQD3_OBJECT_REF_VALUE *ref_value = read_ref_value_from_ref(value);
     if (ref_value->ref_type == T_VARIABLE) {
@@ -120,9 +123,9 @@ float read_float_from_object(SQD3_OBJECT *object) {
 }
 
 SQD3_OBJECT *execute_operator_plus(SQD3_OBJECT *left, SQD3_OBJECT *right) {
-  if(left->object_type == T_FLOAT) {
-    return float_from_double(read_float_from_object(NORMALIZE(left)) +
-                             read_float_from_object(NORMALIZE(right)));
+  if (left->object_type == T_FLOAT) {
+    return float_from_float(read_float_from_object(NORMALIZE(left)) +
+                            read_float_from_object(NORMALIZE(right)));
   }
   return integer_from_long_long(read_integer_from_object(NORMALIZE(left)) +
                                 read_integer_from_object(NORMALIZE(right)));

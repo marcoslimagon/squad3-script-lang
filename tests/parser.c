@@ -211,7 +211,7 @@ START_TEST(test_float_factor) {
   FILE *buffer = fmemopen(input, strlen(input), "r");
   init_lexer(buffer);
 
-  ck_assert_double_eq(read_float_from_object(factor()), 2.2);
+  ck_assert_float_eq(read_float_from_object(factor()), 2.2);
   fclose(buffer);
 }
 END_TEST
@@ -258,7 +258,9 @@ START_TEST(test_float_sum) {
   FILE *buffer = fmemopen(input, strlen(input), "r");
   init_lexer(buffer);
 
-  ck_assert_double_eq(read_float_from_object(expr()), 2.2 + 1.1);
+  char destination[4];
+  to_string(expr(), destination);
+  ck_assert_str_eq(destination, "3.300000");
   fclose(buffer);
 }
 END_TEST
