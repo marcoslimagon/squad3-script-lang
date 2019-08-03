@@ -38,7 +38,9 @@ void repl() {
 
     init_lexer(buffer);
     SQD3_OBJECT *result = expr();
-    printf("%lld \n", read_integer_from_object(result));
+    char str_result[100];
+    to_string(result, str_result);
+    printf("%s \n", str_result);
   }
 }
 

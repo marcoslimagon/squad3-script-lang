@@ -277,6 +277,78 @@ START_TEST(test_float_and_int_sum) {
 }
 END_TEST
 
+START_TEST(test_float_minus) {
+  char input[] = "2.2 - 1.1";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  char destination[10];
+  to_string(expr(), destination);
+  ck_assert_str_eq(destination, "1.100000");
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_float_and_int_minus) {
+  char input[] = "2.2 - 1";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  char destination[10];
+  to_string(expr(), destination);
+  ck_assert_str_eq(destination, "1.200000");
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_float_multi) {
+  char input[] = "4.4 * 2.0";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  char destination[10];
+  to_string(expr(), destination);
+  ck_assert_str_eq(destination, "8.800000");
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_float_and_int_multi) {
+  char input[] = "2.2 * 2";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  char destination[10];
+  to_string(expr(), destination);
+  ck_assert_str_eq(destination, "4.400000");
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_float_division) {
+  char input[] = "4.4 / 2.0";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  char destination[10];
+  to_string(expr(), destination);
+  ck_assert_str_eq(destination, "2.200000");
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_float_and_int_division) {
+  char input[] = "5.0 / 2";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  char destination[10];
+  to_string(expr(), destination);
+  ck_assert_str_eq(destination, "2.500000");
+  fclose(buffer);
+}
+END_TEST
+
 Suite *parser_suite(void) {
   Suite *suite;
   TCase *tc_factor;
@@ -309,12 +381,18 @@ Suite *parser_suite(void) {
   tcase_add_test(tc_expr, test_negative_with_parentheses);
   tcase_add_test(tc_expr, test_float_sum);
   tcase_add_test(tc_expr, test_float_and_int_sum);
+  tcase_add_test(tc_expr, test_float_minus);
+  tcase_add_test(tc_expr, test_float_and_int_minus);
+  tcase_add_test(tc_expr, test_float_multi);
+  tcase_add_test(tc_expr, test_float_and_int_multi);
+  tcase_add_test(tc_expr, test_float_division);
+  tcase_add_test(tc_expr, test_float_and_int_division);
 
   tcase_add_test(tc_complex_expr, test_complex_with_parentheses);
   tcase_add_test(tc_complex_expr, test_complex_without_parentheses);
 
-  tcase_add_test(tc_assgn_expr, test_assign_variable);
   tcase_add_test(tc_assgn_expr, test_assign_expression_result);
+  tcase_add_test(tc_assgn_expr, test_assign_variable);
 
   tcase_add_test(tc_function_call, test_builtin_function);
   tcase_add_test(tc_function_call, test_builtin_function_with_parameters);

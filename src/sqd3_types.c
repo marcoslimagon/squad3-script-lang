@@ -143,18 +143,52 @@ SQD3_OBJECT *execute_operator_plus(SQD3_OBJECT *left, SQD3_OBJECT *right) {
 }
 
 SQD3_OBJECT *execute_operator_multi(SQD3_OBJECT *left, SQD3_OBJECT *right) {
-  return integer_from_long_long(read_integer_from_object(NORMALIZE(left)) *
-                                read_integer_from_object(NORMALIZE(right)));
+  SQD3_OBJECT *left_object = NORMALIZE(left);
+  SQD3_OBJECT *right_object = NORMALIZE(right);
+
+  if (left_object->object_type == T_FLOAT ||
+      right_object->object_type == T_FLOAT) {
+
+    float a = READ_CONTENT(left_object);
+    float b = READ_CONTENT(right_object);
+
+    return float_from_float(a * b);
+  }
+  return integer_from_long_long(read_integer_from_object(left) *
+                                read_integer_from_object(right));
 }
 
 SQD3_OBJECT *execute_operator_division(SQD3_OBJECT *left, SQD3_OBJECT *right) {
+  SQD3_OBJECT *left_object = NORMALIZE(left);
+  SQD3_OBJECT *right_object = NORMALIZE(right);
+
+  if (left_object->object_type == T_FLOAT ||
+      right_object->object_type == T_FLOAT) {
+
+    float a = READ_CONTENT(left_object);
+    float b = READ_CONTENT(right_object);
+
+    return float_from_float(a / b);
+  }
   return integer_from_long_long(read_integer_from_object(NORMALIZE(left)) /
                                 read_integer_from_object(NORMALIZE(right)));
 }
 
 SQD3_OBJECT *execute_operator_minus(SQD3_OBJECT *left, SQD3_OBJECT *right) {
-  return integer_from_long_long(read_integer_from_object(NORMALIZE(left)) -
-                                read_integer_from_object(NORMALIZE(right)));
+  SQD3_OBJECT *left_object = NORMALIZE(left);
+  SQD3_OBJECT *right_object = NORMALIZE(right);
+
+  if (left_object->object_type == T_FLOAT ||
+      right_object->object_type == T_FLOAT) {
+
+    float a = READ_CONTENT(left_object);
+    float b = READ_CONTENT(right_object);
+
+    return float_from_float(a - b);
+  }
+
+  return integer_from_long_long(read_integer_from_object(left) -
+                                read_integer_from_object(right));
 }
 
 void invert_number_value(SQD3_OBJECT *object) {
