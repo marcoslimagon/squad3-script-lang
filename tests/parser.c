@@ -258,7 +258,7 @@ START_TEST(test_float_sum) {
   FILE *buffer = fmemopen(input, strlen(input), "r");
   init_lexer(buffer);
 
-  char destination[4];
+  char destination[10];
   to_string(expr(), destination);
   ck_assert_str_eq(destination, "3.300000");
   fclose(buffer);
@@ -270,7 +270,9 @@ START_TEST(test_float_and_int_sum) {
   FILE *buffer = fmemopen(input, strlen(input), "r");
   init_lexer(buffer);
 
-  ck_assert_double_eq(read_float_from_object(expr()), 1 + 2.2);
+  char destination[10];
+  to_string(expr(), destination);
+  ck_assert_str_eq(destination, "3.200000");
   fclose(buffer);
 }
 END_TEST
@@ -306,8 +308,7 @@ Suite *parser_suite(void) {
   tcase_add_test(tc_expr, test_negative_factor);
   tcase_add_test(tc_expr, test_negative_with_parentheses);
   tcase_add_test(tc_expr, test_float_sum);
-  // TODO: suportar soma de float com inteiro
-  // tcase_add_test(tc_expr, test_float_and_int_sum);
+  tcase_add_test(tc_expr, test_float_and_int_sum);
 
   tcase_add_test(tc_complex_expr, test_complex_with_parentheses);
   tcase_add_test(tc_complex_expr, test_complex_without_parentheses);

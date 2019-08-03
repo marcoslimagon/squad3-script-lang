@@ -5,6 +5,10 @@ extern SQD3_OBJECT *read_value_from_ref(SQD3_OBJECT *object,
 #define NORMALIZE(o)                                                           \
   (o->object_type == T_REF) ? read_value_from_ref(o, false) : o
 
+#define READ_CONTENT(o)                                                        \
+  (o->object_type == T_FLOAT) ? read_float_from_object(o)                      \
+                              : read_integer_from_object(o)
+
 SQD3_OBJECT *integer_from_long_long(integer value) {
   SQD3_OBJECT *ref = malloc(sizeof(SQD3_OBJECT));
 
@@ -123,12 +127,19 @@ float read_float_from_object(SQD3_OBJECT *object) {
 }
 
 SQD3_OBJECT *execute_operator_plus(SQD3_OBJECT *left, SQD3_OBJECT *right) {
-  if (left->object_type == T_FLOAT) {
-    return float_from_float(read_float_from_object(NORMALIZE(left)) +
-                            read_float_from_object(NORMALIZE(right)));
+  SQD3_OBJECT *left_object = NORMALIZE(left);
+  SQD3_OBJECT *right_object = NORMALIZE(right);
+
+  if (left_object->object_type == T_FLOAT ||
+      right_object->object_type == T_FLOAT) {
+
+    float a = READ_CONTENT(left_object);
+    float b = READ_CONTENT(right_object);
+
+    return float_from_float(a + b);
   }
-  return integer_from_long_long(read_integer_from_object(NORMALIZE(left)) +
-                                read_integer_from_object(NORMALIZE(right)));
+  return integer_from_long_long(read_integer_from_object(left_object) +
+                                read_integer_from_object(right_object));
 }
 
 SQD3_OBJECT *execute_operator_multi(SQD3_OBJECT *left, SQD3_OBJECT *right) {
