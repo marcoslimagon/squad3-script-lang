@@ -10,6 +10,7 @@
 
 typedef enum {
   T_INTEGER,
+  T_FLOAT,
   T_REF,
   T_STRING,
 } object_t;
@@ -33,11 +34,13 @@ typedef struct SQD3_OBJECT_REF_VALUE {
 SQD3_OBJECT *clone_object(SQD3_OBJECT *value);
 SQD3_OBJECT *integer_from_long_long(integer value);
 SQD3_OBJECT *string_from_const_char(const char *value);
+SQD3_OBJECT *float_from_float(float value);
 SQD3_OBJECT *build_ref(varname_t varname);
 SQD3_OBJECT *build_builtin_function_ref(varname_t varname, void *function_ptr);
 void to_string(SQD3_OBJECT *value, char *destination);
 
 integer read_integer_from_object(SQD3_OBJECT *object);
+float read_float_from_object(SQD3_OBJECT *object);
 SQD3_OBJECT_REF_VALUE *read_ref_value_from_ref(SQD3_OBJECT *object);
 const char *read_string_from_object(SQD3_OBJECT *object);
 void *read_function_from_object(SQD3_OBJECT *object);

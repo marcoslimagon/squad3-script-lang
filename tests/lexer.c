@@ -238,6 +238,32 @@ START_TEST(test_id_with_underscore_consumer) {
 }
 END_TEST
 
+START_TEST(test_float_plus_integer_tokens) {
+  char lexeme[LEXEME_MAX_SIZE];
+
+  char input[] = "2.2 + 1";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_int_eq(get_lookahead(), FLOAT);
+  read_lexeme(lexeme);
+  ck_assert_str_eq("2.2", lexeme);
+  match(FLOAT);
+
+  ck_assert_int_eq(get_lookahead(), '+');
+  read_lexeme(lexeme);
+  ck_assert_str_eq("+", lexeme);
+  match('+');
+
+  ck_assert_int_eq(get_lookahead(), UINT);
+  read_lexeme(lexeme);
+  ck_assert_str_eq("1", lexeme);
+  match(UINT);
+
+  fclose(buffer);
+}
+END_TEST
+
 Suite *lexer_suite(void) {
   Suite *suite;
   TCase *tc_integers;
@@ -269,6 +295,7 @@ Suite *lexer_suite(void) {
 
   tcase_add_test(tc_floats, test_float_consumer);
   tcase_add_test(tc_floats, test_float_consumer_number_dot_number_dot_number);
+  tcase_add_test(tc_floats, test_float_plus_integer_tokens);
 
   tcase_add_test(tc_ids, test_id_consumer);
   tcase_add_test(tc_ids, test_id_with_number_consumer);

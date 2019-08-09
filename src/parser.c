@@ -84,11 +84,18 @@ SQD3_OBJECT *factor(void) {
 
   if (get_lookahead() == UINT) {
     match(UINT);
-
     if (invert_factor) {
       return integer_from_long_long(atoll(lexeme) * -1);
     }
     return integer_from_long_long(atoll(lexeme));
+  }
+
+  if (get_lookahead() == FLOAT) {
+    match(FLOAT);
+    if (invert_factor) {
+      return float_from_float(atof(lexeme) * -1);
+    }
+    return float_from_float(atof(lexeme));
   }
 
   match(ID);

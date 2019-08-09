@@ -5,7 +5,7 @@
  * expr_list -> expr { ',' expr }
  * expr -> factor { binary_op factor }
  * binary_op -> '+' | '-' | '*' | '/' | '='
- * factor -> ['-'] ( 'UINT' | 'ID' ['(' expr_list ')'] | '(' expr ')' )
+ * factor -> ['-']('UINT' | 'FLOAT' | 'ID' ['(' expr_list ')'] | '(' expr ')')
  */
 
 #include <stdlib.h>
