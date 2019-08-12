@@ -349,6 +349,16 @@ START_TEST(test_float_and_int_division) {
 }
 END_TEST
 
+START_TEST(test_stmt) {
+  char input[] = "- 10";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_int_eq(read_integer_from_object(stmt()), -10);
+  fclose(buffer);
+}
+END_TEST
+
 Suite *parser_suite(void) {
   Suite *suite;
   TCase *tc_factor;
@@ -356,6 +366,7 @@ Suite *parser_suite(void) {
   TCase *tc_complex_expr;
   TCase *tc_assgn_expr;
   TCase *tc_function_call;
+  TCase *tc_stmt;
 
   suite = suite_create("Parser");
   tc_factor = tcase_create("factor");
@@ -363,6 +374,7 @@ Suite *parser_suite(void) {
   tc_complex_expr = tcase_create("complex expr");
   tc_assgn_expr = tcase_create("assgn expr");
   tc_function_call = tcase_create("function call");
+  tc_stmt = tcase_create("statement");
 
   tcase_add_test(tc_factor, test_factor_integer);
   tcase_add_test(tc_factor, test_factor_id);
@@ -397,11 +409,14 @@ Suite *parser_suite(void) {
   tcase_add_test(tc_function_call, test_builtin_function);
   tcase_add_test(tc_function_call, test_builtin_function_with_parameters);
 
+  tcase_add_test(tc_stmt, test_stmt);
+
   suite_add_tcase(suite, tc_factor);
   suite_add_tcase(suite, tc_expr);
   suite_add_tcase(suite, tc_complex_expr);
   suite_add_tcase(suite, tc_assgn_expr);
   suite_add_tcase(suite, tc_function_call);
+  suite_add_tcase(suite, tc_stmt);
 
   return suite;
 }

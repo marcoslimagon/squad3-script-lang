@@ -26,6 +26,8 @@ SQD3_OBJECT *execute_function(varname_t function_name) {
 /**
  * public functions
  */
+SQD3_OBJECT *stmt(void) { return expr(); }
+
 void expr_list(void) {
   for (;;) {
     SQD3_OBJECT *result = expr();
