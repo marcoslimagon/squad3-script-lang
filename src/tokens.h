@@ -7,6 +7,7 @@ enum {
   START_PARENTHESES = 40,
   END_PARENTHESES,
   COMMA = 44,
+  STMT_SEP = 59,
 
   UINT = 255,
   FLOAT,

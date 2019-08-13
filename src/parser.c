@@ -26,6 +26,17 @@ SQD3_OBJECT *execute_function(varname_t function_name) {
 /**
  * public functions
  */
+SQD3_OBJECT *stmt_list(void) {
+  SQD3_OBJECT *result = stmt();
+  while (get_lookahead() == STMT_SEP) {
+    match(STMT_SEP);
+    result = stmt();
+  }
+  return result;
+}
+
+SQD3_OBJECT *stmt(void) { return expr(); }
+
 void expr_list(void) {
   for (;;) {
     SQD3_OBJECT *result = expr();
