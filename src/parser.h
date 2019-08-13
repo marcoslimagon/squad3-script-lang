@@ -2,7 +2,7 @@
 #define __PARSER_H__
 
 /** SQD3 EBNF
- * stmt_list -> stmt ';'
+ * stmt_list -> stmt { ';' stmt }
  * stmt -> expr
  * expr_list -> expr { ',' expr }
  * expr -> factor { binary_op factor }
@@ -16,6 +16,7 @@
 #include "sqd3_types.h"
 #include "tree.h"
 
+SQD3_OBJECT *stmt_list(void);
 SQD3_OBJECT *stmt(void);
 void expr_list(void);
 SQD3_OBJECT *expr(void);

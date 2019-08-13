@@ -359,6 +359,16 @@ START_TEST(test_stmt) {
 }
 END_TEST
 
+START_TEST(test_stmt_list_return) {
+  char input[] = "- 10; 5";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_int_eq(read_integer_from_object(stmt_list()), 5);
+  fclose(buffer);
+}
+END_TEST
+
 Suite *parser_suite(void) {
   Suite *suite;
   TCase *tc_factor;
@@ -410,6 +420,7 @@ Suite *parser_suite(void) {
   tcase_add_test(tc_function_call, test_builtin_function_with_parameters);
 
   tcase_add_test(tc_stmt, test_stmt);
+  tcase_add_test(tc_stmt, test_stmt_list_return);
 
   suite_add_tcase(suite, tc_factor);
   suite_add_tcase(suite, tc_expr);
