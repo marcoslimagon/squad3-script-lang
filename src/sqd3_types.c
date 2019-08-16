@@ -76,6 +76,17 @@ SQD3_OBJECT *float_from_float(float value) {
   return ref;
 }
 
+SQD3_OBJECT *boolean_from_char(char value) {
+  SQD3_OBJECT *ref = malloc(sizeof(SQD3_OBJECT));
+
+  ref->object_type = T_BOOLEAN;
+
+  ref->value = malloc(sizeof(char));
+  memcpy(ref->value, &value, sizeof(char));
+
+  return ref;
+}
+
 SQD3_OBJECT *clone_object(SQD3_OBJECT *value) {
   SQD3_OBJECT *cloned = malloc(sizeof(SQD3_OBJECT));
   memcpy(cloned, value, sizeof(SQD3_OBJECT));
@@ -97,6 +108,14 @@ void to_string(SQD3_OBJECT *value, char *destination) {
   }
   if (value->object_type == T_FLOAT) {
     sprintf(destination, "%f", read_float_from_object(value));
+  }
+  if (value->object_type == T_BOOLEAN) {
+    char boolean = read_boolean_from_object(value);
+    if (boolean) {
+      sprintf(destination, "true");
+    } else {
+      sprintf(destination, "false");
+    }
   }
   if (value->object_type == T_REF) {
     SQD3_OBJECT_REF_VALUE *ref_value = read_ref_value_from_ref(value);
@@ -124,6 +143,10 @@ void *read_function_from_object(SQD3_OBJECT *object) {
 
 float read_float_from_object(SQD3_OBJECT *object) {
   return *((float *)object->value);
+}
+
+char read_boolean_from_object(SQD3_OBJECT *object) {
+  return *((char *)object->value);
 }
 
 SQD3_OBJECT *execute_operator_plus(SQD3_OBJECT *left, SQD3_OBJECT *right) {
