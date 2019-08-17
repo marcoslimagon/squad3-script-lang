@@ -93,11 +93,51 @@ START_TEST(test_invert_number_value) {
 }
 END_TEST
 
+START_TEST(test_boolean_false) {
+  integer *value = malloc(sizeof(char));
+  *value = 0;
+
+  SQD3_OBJECT *object = boolean_from_char(*value);
+
+  free(value);
+
+  ck_assert_int_eq(read_boolean_from_object(object), 0);
+  ck_assert_int_eq(object->object_type, T_BOOLEAN);
+
+  char destination[10];
+  to_string(object, destination);
+  ck_assert_str_eq(destination, "false");
+
+  free_object(object);
+}
+END_TEST
+
+START_TEST(test_boolean_true) {
+  integer *value = malloc(sizeof(char));
+  *value = 1;
+
+  SQD3_OBJECT *object = boolean_from_char(*value);
+
+  free(value);
+
+  ck_assert_int_eq(read_boolean_from_object(object), 1);
+  ck_assert_int_eq(object->object_type, T_BOOLEAN);
+
+  char destination[10];
+  to_string(object, destination);
+  ck_assert_str_eq(destination, "true");
+
+  free_object(object);
+}
+END_TEST
+
 Suite *parser_suite(void) {
   Suite *suite;
   TCase *tc_integer;
+  TCase *tc_boolean;
 
   tc_integer = tcase_create("integers");
+  tc_boolean = tcase_create("booleans");
 
   suite = suite_create("SQD3 Types");
 
@@ -109,7 +149,11 @@ Suite *parser_suite(void) {
   tcase_add_test(tc_integer, test_division_integers);
   tcase_add_test(tc_integer, test_invert_number_value);
 
+  tcase_add_test(tc_boolean, test_boolean_false);
+  tcase_add_test(tc_boolean, test_boolean_true);
+
   suite_add_tcase(suite, tc_integer);
+  suite_add_tcase(suite, tc_boolean);
 
   return suite;
 }
