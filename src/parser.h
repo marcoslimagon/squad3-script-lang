@@ -7,7 +7,9 @@
  * expr_list -> expr { ',' expr }
  * expr -> factor { binary_op factor }
  * binary_op -> '+' | '-' | '*' | '/' | '='
- * factor -> ['-']('UINT' | 'FLOAT' | 'ID' ['(' expr_list ')'] | '(' expr ')')
+ * factor -> ['-']('UINT' | 'FLOAT' | boolean | 'ID' ['(' expr_list ')'] | '('
+ * expr ')')
+ * boolean -> 'true' | 'false'
  */
 
 #include <stdlib.h>

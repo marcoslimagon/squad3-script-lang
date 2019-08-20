@@ -264,6 +264,28 @@ START_TEST(test_float_plus_integer_tokens) {
 }
 END_TEST
 
+START_TEST(test_true) {
+  char input[] = "true";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_int_eq(get_lookahead(), TRUE);
+
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_false) {
+  char input[] = "false";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_int_eq(get_lookahead(), FALSE);
+
+  fclose(buffer);
+}
+END_TEST
+
 Suite *lexer_suite(void) {
   Suite *suite;
   TCase *tc_integers;
@@ -271,6 +293,7 @@ Suite *lexer_suite(void) {
   TCase *tc_binary;
   TCase *tc_floats;
   TCase *tc_ids;
+  TCase *tc_booleans;
 
   suite = suite_create("Lexer");
   tc_integers = tcase_create("Integer");
@@ -278,6 +301,7 @@ Suite *lexer_suite(void) {
   tc_binary = tcase_create("Binary");
   tc_floats = tcase_create("Floats");
   tc_ids = tcase_create("Identifiers");
+  tc_booleans = tcase_create("Booleans");
 
   tcase_add_test(tc_integers, test_uint_consumer);
   tcase_add_test(tc_integers, test_uint_with_parentheses);
@@ -301,11 +325,15 @@ Suite *lexer_suite(void) {
   tcase_add_test(tc_ids, test_id_with_number_consumer);
   tcase_add_test(tc_ids, test_id_with_underscore_consumer);
 
+  tcase_add_test(tc_booleans, test_true);
+  tcase_add_test(tc_booleans, test_false);
+
   suite_add_tcase(suite, tc_integers);
   suite_add_tcase(suite, tc_spaces);
   suite_add_tcase(suite, tc_binary);
   suite_add_tcase(suite, tc_floats);
   suite_add_tcase(suite, tc_ids);
+  suite_add_tcase(suite, tc_booleans);
 
   return suite;
 }
