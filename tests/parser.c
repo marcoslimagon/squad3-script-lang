@@ -369,6 +369,26 @@ START_TEST(test_stmt_list_return) {
 }
 END_TEST
 
+START_TEST(test_boolean_true_factor) {
+  char input[] = "true";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_float_eq(read_boolean_from_object(factor()), 1);
+  fclose(buffer);
+}
+END_TEST
+
+START_TEST(test_boolean_false_factor) {
+  char input[] = "false";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_float_eq(read_boolean_from_object(factor()), 0);
+  fclose(buffer);
+}
+END_TEST
+
 Suite *parser_suite(void) {
   Suite *suite;
   TCase *tc_factor;
@@ -389,6 +409,8 @@ Suite *parser_suite(void) {
   tcase_add_test(tc_factor, test_factor_integer);
   tcase_add_test(tc_factor, test_factor_id);
   tcase_add_test(tc_factor, test_float_factor);
+  tcase_add_test(tc_factor, test_boolean_true_factor);
+  tcase_add_test(tc_factor, test_boolean_false_factor);
 
   tcase_add_test(tc_expr, test_expr_only_factor);
   tcase_add_test(tc_expr, test_expr_sum);
