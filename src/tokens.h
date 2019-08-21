@@ -11,7 +11,11 @@ enum {
 
   UINT = 255,
   FLOAT,
-  ID
+  ID,
+
+  /* start keywords */
+  TRUE,
+  FALSE
 };
 
 #endif /*__TOKENS_H__*/

@@ -23,6 +23,20 @@ SQD3_OBJECT *execute_function(varname_t function_name) {
   return function();
 }
 
+token is_boolean() {
+  if (get_lookahead() == TRUE || get_lookahead() == FALSE) {
+    return get_lookahead();
+  }
+  return 0;
+}
+
+SQD3_OBJECT *booelean_object(token boolean) {
+  if (boolean == TRUE) {
+    return boolean_from_char(1);
+  }
+  return boolean_from_char(0);
+}
+
 /**
  * public functions
  */
@@ -107,6 +121,12 @@ SQD3_OBJECT *factor(void) {
       return float_from_float(atof(lexeme) * -1);
     }
     return float_from_float(atof(lexeme));
+  }
+
+  token boolean;
+  if ((boolean = is_boolean())) {
+    match(boolean);
+    return booelean_object(boolean);
   }
 
   match(ID);

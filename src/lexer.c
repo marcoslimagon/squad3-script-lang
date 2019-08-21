@@ -5,6 +5,22 @@ token lookeahead;
 char lexeme[LEXEME_MAX_SIZE];
 int position;
 
+#define KEYWORDS 2
+char *keywords[] = {"true", "false"};
+
+/**
+ * Funcoes privadas.
+ * Essas funcoes serao utilizadas para
+ * reconhecer tokens.
+ */
+token iskeyword() {
+  for (int i = 0; i < KEYWORDS; i++) {
+    if (strcmp(keywords[i], lexeme) == 0)
+      return i + TRUE;
+  }
+  return 0;
+}
+
 void read_digits() {
 
   char c = 0;
@@ -15,11 +31,6 @@ void read_digits() {
   ungetc(c, stream);
 }
 
-/**
- * Funcoes privadas.
- * Essas funcoes serao utilizadas para
- * reconhecer tokens.
- */
 token read_number(void) {
   char c = getc(stream);
   position = 0;
@@ -91,8 +102,11 @@ token get_next_token(void) {
   token kind;
   if ((kind = read_number()))
     return kind;
-  if (id())
+  if (id()) {
+    if ((kind = iskeyword()))
+      return kind;
     return ID;
+  }
   return is_valid_char();
 }
 
