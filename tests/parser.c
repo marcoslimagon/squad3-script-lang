@@ -200,8 +200,6 @@ START_TEST(test_assign_expression_result) {
   init_vtable();
 
   ck_assert_int_eq(read_integer_from_object(expr()), 110);
-  VTABLE_ENTRY *entry = recover_variable("x");
-  ck_assert_int_eq(read_integer_from_object(entry->ref), 110);
   fclose(buffer);
 }
 END_TEST
@@ -389,6 +387,16 @@ START_TEST(test_boolean_false_factor) {
 }
 END_TEST
 
+START_TEST(test_boolean_invert_factor) {
+  char input[] = "!false";
+  FILE *buffer = fmemopen(input, strlen(input), "r");
+  init_lexer(buffer);
+
+  ck_assert_float_eq(read_boolean_from_object(factor()), 1);
+  fclose(buffer);
+}
+END_TEST
+
 Suite *parser_suite(void) {
   Suite *suite;
   TCase *tc_factor;
@@ -411,6 +419,7 @@ Suite *parser_suite(void) {
   tcase_add_test(tc_factor, test_float_factor);
   tcase_add_test(tc_factor, test_boolean_true_factor);
   tcase_add_test(tc_factor, test_boolean_false_factor);
+  tcase_add_test(tc_factor, test_boolean_invert_factor);
 
   tcase_add_test(tc_expr, test_expr_only_factor);
   tcase_add_test(tc_expr, test_expr_sum);

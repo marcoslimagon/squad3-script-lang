@@ -7,8 +7,9 @@
  * expr_list -> expr { ',' expr }
  * expr -> factor { binary_op factor }
  * binary_op -> '+' | '-' | '*' | '/' | '='
- * factor -> ['-']('UINT' | 'FLOAT' | boolean | 'ID' ['(' expr_list ')'] | '('
- * expr ')')
+ * unary_op -> '!' | '-'
+ * factor -> [unary_op]('UINT' | 'FLOAT' | boolean | 'ID' ['(' expr_list ')'] |
+ * '(' expr ')')
  * boolean -> 'true' | 'false'
  */
 
