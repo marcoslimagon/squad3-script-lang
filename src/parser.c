@@ -8,6 +8,15 @@ bool is_binary_op(token value) {
           value == '=');
 }
 
+token unary_op(void) {
+  token lookahead = get_lookahead();
+  if (lookahead == '-' || lookahead == '!') {
+    match(lookahead);
+    return lookahead;
+  }
+  return 0;
+}
+
 SQD3_OBJECT *execute_function(varname_t function_name) {
   SQD3_OBJECT *(*function)();
   VTABLE_ENTRY *entry = recover_variable(function_name);
@@ -85,23 +94,14 @@ SQD3_OBJECT *expr(void) {
 
 SQD3_OBJECT *factor(void) {
   SQD3_OBJECT *result;
-  bool invert_factor = false;
-
-  if (get_lookahead() == '-') {
-    match('-');
-    invert_factor = true;
-  }
+  token invert_factor = unary_op();
 
   if (get_lookahead() == START_PARENTHESES) {
     match(START_PARENTHESES);
     result = expr();
 
     match(END_PARENTHESES);
-    if (invert_factor) {
-      invert_number_value(result);
-    }
-
-    return result;
+    return execute_operator_unary_op(invert_factor, result);
   }
 
   char lexeme[LEXEME_MAX_SIZE];
@@ -109,24 +109,20 @@ SQD3_OBJECT *factor(void) {
 
   if (get_lookahead() == UINT) {
     match(UINT);
-    if (invert_factor) {
-      return integer_from_long_long(atoll(lexeme) * -1);
-    }
-    return integer_from_long_long(atoll(lexeme));
+    return execute_operator_unary_op(invert_factor,
+                                     integer_from_long_long(atoll(lexeme)));
   }
 
   if (get_lookahead() == FLOAT) {
     match(FLOAT);
-    if (invert_factor) {
-      return float_from_float(atof(lexeme) * -1);
-    }
-    return float_from_float(atof(lexeme));
+    return execute_operator_unary_op(invert_factor,
+                                     float_from_float(atof(lexeme)));
   }
 
   token boolean;
   if ((boolean = is_boolean())) {
     match(boolean);
-    return booelean_object(boolean);
+    return execute_operator_unary_op(invert_factor, booelean_object(boolean));
   }
 
   match(ID);
@@ -143,7 +139,7 @@ SQD3_OBJECT *factor(void) {
     dispose_local_variables();
     finish_context();
 
-    return function_result;
+    return execute_operator_unary_op(invert_factor, function_result);
   }
-  return build_ref(lexeme);
+  return execute_operator_unary_op(invert_factor, build_ref(lexeme));
 }

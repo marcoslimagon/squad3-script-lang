@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "consts.h"
+#include "tokens.h"
 
 typedef enum {
   T_INTEGER,
@@ -53,7 +54,10 @@ SQD3_OBJECT *execute_operator_multi(SQD3_OBJECT *left, SQD3_OBJECT *right);
 SQD3_OBJECT *execute_operator_division(SQD3_OBJECT *left, SQD3_OBJECT *right);
 SQD3_OBJECT *execute_operator_minus(SQD3_OBJECT *left, SQD3_OBJECT *right);
 
-void invert_number_value(SQD3_OBJECT *object);
+SQD3_OBJECT *execute_operator_unary_op(token op, SQD3_OBJECT *operand);
+SQD3_OBJECT *execute_operator_unary_minus(SQD3_OBJECT *operand);
+SQD3_OBJECT *execute_operator_unary_not(SQD3_OBJECT *operand);
+
 void free_object(SQD3_OBJECT *object);
 
 #endif

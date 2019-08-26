@@ -214,8 +214,35 @@ SQD3_OBJECT *execute_operator_minus(SQD3_OBJECT *left, SQD3_OBJECT *right) {
                                 read_integer_from_object(right));
 }
 
-void invert_number_value(SQD3_OBJECT *object) {
-  *((integer *)object->value) = *((integer *)object->value) * -1;
+SQD3_OBJECT *execute_operator_unary_op(token op, SQD3_OBJECT *operand) {
+  if (op == '!')
+    return execute_operator_unary_not(operand);
+  if (op == '-')
+    return execute_operator_unary_minus(operand);
+  return operand;
+}
+
+SQD3_OBJECT *execute_operator_unary_minus(SQD3_OBJECT *operand) {
+  if (operand->object_type == T_FLOAT) {
+    return float_from_float(read_float_from_object(operand) * -1);
+  }
+  if (operand->object_type == T_INTEGER) {
+    return integer_from_long_long(read_integer_from_object(operand) * -1);
+  }
+  char str_value[100];
+  to_string(operand, str_value);
+  fprintf(stderr, "cannot execute '-' operator for %s", str_value);
+  exit(-10);
+}
+
+SQD3_OBJECT *execute_operator_unary_not(SQD3_OBJECT *operand) {
+  if (operand->object_type == T_BOOLEAN) {
+    return boolean_from_char(!read_boolean_from_object(operand));
+  }
+  char str_value[100];
+  to_string(operand, str_value);
+  fprintf(stderr, "cannot execute '!' operator for %s", str_value);
+  exit(-11);
 }
 
 void free_object(SQD3_OBJECT *object) {
